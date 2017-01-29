@@ -1,6 +1,3 @@
-/**
- * Created by BAHA on 29/01/2017.
- */
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import model.ChannelResult;
 import model.UserResults;
@@ -11,8 +8,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
- * Created by felip on 20/07/2016.
+ * Created by BAHA on 29/01/2017.
  */
+
+
 public interface Service {
     final String BASE_URL = "";
 
