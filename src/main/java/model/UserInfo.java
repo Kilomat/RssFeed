@@ -1,39 +1,49 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by BAHA on 29/01/2017.
  */
 
 public class UserInfo {
 
-    public Integer id;
-    public Integer Token;
-    public String Username;
-    public String Password;
+    @JsonProperty("id")
+    public String id;
+    @JsonProperty("token")
+    public String token;
+    @JsonProperty("login")
+    public String username;
+    @JsonProperty("password")
+    public String password;
 
 
-    public UserInfo(Integer id, Integer Token, String Username, String Password) {
+    public UserInfo() {
+        super();
+    }
 
-        this.Token = Token;
+    public UserInfo(String id, String Token, String Username, String Password) {
+
+        this.token = Token;
         this.id = id;
-        this.Username = Username;
-        this.Password = Password;
+        this.username = Username;
+        this.password = Password;
     }
 
-    public Integer getId() {
-        return Token;
+    public String getLogin() {
+        return username;
     }
 
-    public Integer getToken() {
-        return id;
+    public void setLogin(String login) {
+        this.username = login;
     }
 
-    /*public String getUsername() {
-        return Username;
+    public String getPassword() {
+        return password;
     }
 
-    public String getUsername() {
-        return Password;
-    }*/
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }
