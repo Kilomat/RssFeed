@@ -17,9 +17,20 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import java.io.IOException;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import model.UserInfo;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class LoginViewController {
+public class LoginViewController  implements Callback<List<UserInfo>>{
     @FXML
     private Text actiontarget;
 
@@ -30,7 +41,6 @@ public class LoginViewController {
     private Label lblStatus;
 
     @FXML
-
     private TextField txtUsername;
 
     @FXML
@@ -90,6 +100,44 @@ public class LoginViewController {
         });
     }
 
+
+    static final String BASE_URL = "http://lightthemup.fr.nf:3000/";
+
+    /*
+    public void start() {
+
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        UserService userAPI = retrofit.create(UserService.class);
+
+        Call<List<UserInfo>> call = userAPI.loginUser();
+        call.enqueue(this);
+
+    }*/
+
+    @Override
+    public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
+        if(response.isSuccessful()) {
+            List<UserInfo> userList = response.body();
+            userList.forEach(user -> System.out.println(user.getLogin()));
+        } else {
+            System.out.println(response.errorBody());
+        }
+    }
+
+    @Override
+    public void onFailure(Call<List<UserInfo>> call, Throwable t) {
+        t.printStackTrace();
+    }
+
     private void animateWhenLoginSuccess() {
         try {
             Parent main = FXMLLoader.load(getClass().getResource("/rssView.fxml"));
@@ -126,7 +174,4 @@ public class LoginViewController {
             ex.printStackTrace();
         }
     }
-
-
-
 }

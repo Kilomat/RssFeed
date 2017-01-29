@@ -12,8 +12,8 @@ import retrofit2.http.Path;
  */
 
 
-public interface Service {
-    final String BASE_URL = "";
+public interface UserService {
+    //final String BASE_URL = "";
 
     @POST("users/authenticate")
     Call<UserResults> loginUser(@Body BIConversion.User user);
@@ -21,9 +21,10 @@ public interface Service {
     @POST("users/")
     Call<UserResults> signupUser(@Body BIConversion.User user);
 
-    @GET("channels/")
+    /*@GET("channels/")
     Call<ChannelResult> listChannels();
 
     @GET("channels/{channelId}/")
     Call<ChannelResult> listChannels(@Path("channelId") Integer channelId);
+    */
 }

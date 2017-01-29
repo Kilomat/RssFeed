@@ -43,9 +43,7 @@ public class rssViewController {
     ObservableList<String> list = FXCollections.observableArrayList("Mark", "tom", "Mark", "tom","Mark", "tom","Mark", "tom","Mark", "tom");
 
     @FXML
-    private void initialize()
-    {
-
+    private void initialize() {
         WebEngine engine = webView.getEngine();
         engine.load("http://www.google.com");
         rssListview.setItems(list);
