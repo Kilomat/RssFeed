@@ -41,7 +41,7 @@ public  class Main extends Application {
         }
     }
 
-    static final String BASE_URL = "http://lightthemup.fr.nf:3000/";
+    //static final String BASE_URL = "http://lightthemup.fr.nf:3000/";
 
 
     public static void main(String[] args) {

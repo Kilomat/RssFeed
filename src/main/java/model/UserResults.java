@@ -8,9 +8,6 @@ import java.util.List;
 public class UserResults {
     private List<UserInfo> results;
 
-    public UserResults(List<UserInfo> results) {
-        this.results = results;
-    }
 
     public List<UserInfo> getResults() {
         return results;

@@ -4,6 +4,7 @@ package controller;
  * Created by BAHA on 21/01/2017.
  */
 
+import com.sun.tools.javac.util.Log;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,20 +18,28 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import java.io.IOException;
-import java.util.List;
+import java.util.prefs.Preferences;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import model.UserInfo;
+import okhttp3.ResponseBody;
+import org.json.JSONException;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 
-public class LoginViewController  implements Callback<List<UserInfo>>{
+public class LoginViewController {
+
+    private static final String TAG = "SignUp";
+    private UserInfo user;
+    private RetrofitFactory retrofitFactory = new RetrofitFactory();
+    static boolean success_signup = false;
+
     @FXML
     private Text actiontarget;
 
@@ -53,6 +62,7 @@ public class LoginViewController  implements Callback<List<UserInfo>>{
 
     public LoginViewController() {
         animationGenerator = new AnimationGenerator();
+        this.user = new UserInfo();
     }
 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
@@ -87,8 +97,64 @@ public class LoginViewController  implements Callback<List<UserInfo>>{
             animateWhenBadLogin();
     }
 
+    @FXML
+    private void signup() {
+        if(signUpSuccessful())
+            animateWhenSignUpSuccess();
+    }
+
+    static final String BASE_URL = "";
+
+
+
+    public static void authenticateSuccess(JSONObject res) {
+        ///sav token
+        Preferences prefs = Preferences.userNodeForPackage(controller.RetrofitFactory.class);
+        // Preference key name
+        final String PREF_NAME = "token";
+        String defaultValue = "token";
+        String propertyValue = prefs.get(PREF_NAME, defaultValue);
+        
+        if (propertyValue.isEmpty()) {
+            success_signup = false;
+        }
+        else
+            success_signup = true;
+
+    }
+
+    public static void authenticateError(JSONObject res) {
+        try {
+            //res.getString("message")
+            System.out.println(res.getString("message"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean loginSuccessful() {
-        return txtUsername.getText().equals("test") && txtPassword.getText().equals("test");
+
+
+        String login = txtUsername.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        user.setLogin(login);
+        user.setPassword(password);
+        retrofitFactory.loginUser(user);
+
+        return success_signup;
+    }
+
+    private boolean signUpSuccessful() {
+
+        String login = txtUsername.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        user.setLogin(login);
+        user.setPassword(password);
+        retrofitFactory.signupUser(user);
+
+        return success_signup;
     }
 
     private void setOnKeyPressed() {
@@ -100,42 +166,23 @@ public class LoginViewController  implements Callback<List<UserInfo>>{
         });
     }
 
-
-    static final String BASE_URL = "http://lightthemup.fr.nf:3000/";
-
-    /*
-    public void start() {
-
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        UserService userAPI = retrofit.create(UserService.class);
-
-        Call<List<UserInfo>> call = userAPI.loginUser();
-        call.enqueue(this);
-
-    }*/
-
-    @Override
-    public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-        if(response.isSuccessful()) {
-            List<UserInfo> userList = response.body();
-            userList.forEach(user -> System.out.println(user.getLogin()));
-        } else {
-            System.out.println(response.errorBody());
+    private void animateWhenSignUpSuccess() {
+        try {
+            Parent main = FXMLLoader.load(getClass().getResource("/rssView.fxml"));
+            StackPane temp = new StackPane();
+            animationGenerator.applyFadeAnimationOn(root, 1000, 1.0f, 0f, event -> {
+                temp.setOpacity(0);
+                model.Main.Secondstage.setScene(new Scene(temp, 800, 700));
+                animationGenerator.applyFadeAnimationOn(temp, 1000, 0f, 1.0f, event1 -> {
+                    animationGenerator.applyFadeAnimationOn(temp, 1000, 1.0f, 0f, event2 -> {
+                        model.Main.Secondstage.setScene(new Scene(main, 800, 700));
+                        animationGenerator.applyFadeAnimationOn(main, 1000, 0f, 1.0f, null);
+                    });
+                });
+            });
+        }catch(IOException ex) {
+            ex.printStackTrace();
         }
-    }
-
-    @Override
-    public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-        t.printStackTrace();
     }
 
     private void animateWhenLoginSuccess() {

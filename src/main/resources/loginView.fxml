@@ -15,7 +15,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginViewController">
+<GridPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginViewController">
 
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -49,7 +50,7 @@
                             </cursor>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Label fx:id="registerLabel" onMouseEntered="#mouseMovedRegisterLabel" onMouseExited="#mouseExitedRegisterLabel" text="Register" textFill="#155dda">
+                        <Label fx:id="registerLabel" onMouseClicked="#signup" onMouseEntered="#mouseMovedRegisterLabel" onMouseExited="#mouseExitedRegisterLabel" text="Register" textFill="#155dda">
                             <HBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </HBox.margin>
