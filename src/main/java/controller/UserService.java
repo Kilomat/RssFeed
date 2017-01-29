@@ -22,10 +22,7 @@ public interface UserService {
     @POST("signup")
     Call<ResponseBody> signupUser(@Field("login") String login, @Field("password") String password);
 
-    @GET("channels/")
-    Call<ChannelResult> listChannels();
-
-    @GET("channels/{channelId}/")
-    Call<ChannelResult> listChannels(@Path("channelId") Integer channelId);
+    @GET("channels")
+    Call<ChannelResult> listChannels(@Query("token") String token);
 
 }

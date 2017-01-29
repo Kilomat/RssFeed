@@ -4,9 +4,12 @@ package controller;
  * Created by BAHA on 29/01/2017.
  */
 
+import model.ChannelInfo;
+import model.Feed;
 import model.UserInfo;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.prefs.Preferences;
 
@@ -112,6 +115,66 @@ public class RetrofitFactory {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 //Log.d(TAG, call.toString());
                 //Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    // Attempt to get channels from API
+    public void getChannels(String token) {
+        // Log.d(TAG, token);
+        Call<List<ChannelInfo>> call = service.getChannels(token);
+        call.enqueue(new Callback<List<ChannelInfo>>() {
+
+            @Override
+            public void onResponse(Call<List<ChannelInfo>> call, Response<List<ChannelInfo>> response) {
+                // Log.d(TAG, response.raw().toString());
+                System.out.println("----------");
+                System.out.println(response.raw().toString());
+                System.out.println("----------");
+                try {
+                    if (response.isSuccessful()) {
+                        System.out.println("-----1-----");
+                        System.out.println(response.body().toString());
+                        System.out.println("-----2-----");
+                        rssViewController.getChannelsSuccess(response.body());
+                    } else {
+                        //rssViewController.getChannelsError(response.body());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ChannelInfo>> call, Throwable t) {
+                // Log.d(TAG, call.toString());
+                // Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void getChannel(int id) {
+        Call<List<Feed>> call = service.getChannel("channels/" + id + "/items");
+        call.enqueue(new Callback<List<Feed>>() {
+
+            @Override
+            public void onResponse(Call<List<Feed>> call, Response<List<Feed>> response) {
+                // Log.d(TAG, response.raw().toString());
+                try {
+                    if (response.isSuccessful()) {
+                        //rssViewController.getFeedsSuccess(response.body());
+                    } else {
+                        //rssViewController.getFeedsError(response.body());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Feed>> call, Throwable t) {
+               // Log.d(TAG, call.toString());
+               // Log.e(TAG, t.getMessage());
             }
         });
     }

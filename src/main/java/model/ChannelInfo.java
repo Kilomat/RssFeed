@@ -2,11 +2,33 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by BAHA on 29/01/2017.
  */
 public class ChannelInfo {
 
+    @JsonProperty("id")
+    public Long id;
+    @JsonProperty("title")
+    public String title;
+    @JsonProperty("link")
+    public List<Link> link;
+    @JsonProperty("description")
+    public String description;
+    @JsonProperty("language")
+    public String language;
+    @JsonProperty("image")
+    public Thumbnail thumbnail;
+    @JsonProperty("article_number")
+    public Integer article_number;
+
+    public ChannelInfo() {
+        super();
+    }
+
+    /*
     @JsonProperty("id")
     public String id;
     @JsonProperty("title")
@@ -75,4 +97,5 @@ public class ChannelInfo {
     public String getArticleNumber() {
         return article_number;
     }
+    */
 }

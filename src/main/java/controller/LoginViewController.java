@@ -114,7 +114,7 @@ public class LoginViewController {
         final String PREF_NAME = "token";
         String defaultValue = "token";
         String propertyValue = prefs.get(PREF_NAME, defaultValue);
-        
+
         if (propertyValue.isEmpty()) {
             success_signup = false;
         }
